@@ -1,0 +1,13 @@
+{
+  "name": "rss-discord-webhook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ist-bot-team/rss-discord-webhook.git",
+  "author": "Diogo Correia <me@diogotc.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "turndown": "^7.0.0",
+    "xml2json": "^0.12.0"
+  }
+}
