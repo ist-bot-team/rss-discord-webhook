@@ -37,37 +37,39 @@ const getLastItem = (rss) => {
     }))
   );
 
-  await Promise.all(
-    feed.map(async (channel) => {
-      const date = new Date(channel.data.pubDate);
-      if (date.getTime() > (feedCache[channel.url] || 0)) {
-        feedCache[channel.url] = date.getTime();
+  try {
+    await Promise.all(
+      feed.map(async (channel) => {
+        const date = new Date(channel.data.pubDate);
+        if (date.getTime() > (feedCache[channel.url] || 0)) {
+          feedCache[channel.url] = date.getTime();
 
-        await axios.post(channel.webhookUrl, {
-          content: `Novo anúncio de ${channel.name}!`,
-          embeds: [
-            {
-              title: channel.data.title.substring(0, 256),
-              description: turndownService
-                .turndown(channel.data.description)
-                .substring(0, 2048),
-              url: channel.data.link,
-              color: parseInt(channel.color.substring(1), 16),
-              author: {
-                name:
-                  channel.data.author.match(/\((.+)\)/)?.[1] ||
-                  channel.data.author,
+          await axios.post(channel.webhookUrl, {
+            content: `Novo anúncio de ${channel.name}!`,
+            embeds: [
+              {
+                title: channel.data.title.substring(0, 256),
+                description: turndownService
+                  .turndown(channel.data.description)
+                  .substring(0, 2048),
+                url: channel.data.link,
+                color: parseInt(channel.color.substring(1), 16),
+                author: {
+                  name:
+                    channel.data.author.match(/\((.+)\)/)?.[1] ||
+                    channel.data.author,
+                },
+                footer: {
+                  text: channel.name,
+                },
+                timestamp: date.toISOString(),
               },
-              footer: {
-                text: channel.name,
-              },
-              timestamp: date.toISOString(),
-            },
-          ],
-        });
-      }
-    })
-  );
+            ],
+          });
+        }
+      })
+    );
+  } catch (ignore) {}
 
   fs.writeFile(
     path.join(__dirname, ".cache.json"),
