@@ -45,7 +45,7 @@ const getLastItem = (rss) => {
           feedCache[channel.url] = date.getTime();
 
           await axios.post(channel.webhookUrl, {
-            content: `Novo anúncio de ${channel.name}`,
+            content: `<@&771078585477627924> Novo anúncio de ${channel.name}`,
             embeds: [
               {
                 title: channel.data.title.substring(0, 256),
