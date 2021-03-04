@@ -46,7 +46,7 @@ const getLastItem = (rss) => {
 
           await axios.post(channel.webhookUrl, {
             content: `Novo anúncio de ${channel.name}${
-              channel.role_id ? ` <@${channel.role_id}>` : ``
+              channel.roleId ? ` <@&${channel.roleId}>` : ``
             }`,
             embeds: [
               {
