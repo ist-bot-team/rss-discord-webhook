@@ -13,7 +13,13 @@ const parse = async (url) => {
 
 const getLastItem = (rss) => {
   const item = rss.rss.channel.item;
-  if (Array.isArray(item)) return item[0];
+  console.log(item);
+  if (Array.isArray(item))
+    // Get the latest post
+    return item.reduce((prev, v) => {
+      if (new Date(prev.pubDate) < new Date(v.pubDate)) return v;
+      return prev;
+    });
   return item;
 };
 
